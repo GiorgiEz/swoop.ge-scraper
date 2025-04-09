@@ -1,0 +1,21 @@
+# Ignore PyCharm and other JetBrains IDE settings
+.idea/
+
+# Ignore environment variable files
+.env
+.env.*
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+
+# macOS system files
+.DS_Store
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
