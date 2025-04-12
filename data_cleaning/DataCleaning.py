@@ -62,4 +62,4 @@ class DataCleaning:
 
     def df_to_csv(self, path, headers):
         """ Writes data from dataframe to a csv file """
-        self.products_df.to_csv(path, columns=headers)
+        self.products_df.to_csv(path, columns=headers, index=False)
