@@ -1,13 +1,23 @@
 class Scraper:
-    def __init__(self, category_name, category_soup):
-        self.category_name = category_name
-        self.category_soup = category_soup
+    """
+    Scraper class for extracting product information from a BeautifulSoup-parsed category page.
 
-    def scraper(self):
-        # Finds the title of the category and then searches for a div with a class grid corresponding to the products
-        product_container = (self.category_soup.find("h2")
+    Attributes:
+        all_data (list): A list to store the extracted data from each product.
+    """
+    def __init__(self, all_data):
+        self.all_data = all_data
+
+    def scraper(self, category_name, category_soup):
+        """
+        Scrapes product data from the provided category BeautifulSoup object.
+
+        Args:
+            category_name (str): Name of the product category.
+            category_soup (BeautifulSoup): Parsed HTML soup of the category page.
+        """
+        product_container = (category_soup.find("h2")
                              .find_next_sibling("div", class_="grid"))
-        all_data = []
 
         if product_container:
             products = product_container.find_all("div", class_="relative", recursive=False)
@@ -46,13 +56,11 @@ class Scraper:
                     sold_div = name_and_price_div[2] if len(name_and_price_div) > 2 else None
                     sold_amount = sold_div.text.strip() if sold_div else None
 
-                    all_data.append([
+                    self.all_data.append([
                         product_name, place_name, price_after_sale, price_before_sale,
-                        sale_percentage, sold_amount, product_link, product_image, self.category_name
+                        sale_percentage, sold_amount, product_link, product_image, category_name
                     ])
                 except Exception as e:
                     print(f"⚠️ Error extracting one product: {e}")
         else:
             print("❌ Product container not found.")
-
-        return all_data

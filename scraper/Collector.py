@@ -7,12 +7,31 @@ from selenium.common.exceptions import TimeoutException, WebDriverException
 
 
 class Collector:
+    """
+    Collector class for handling HTTP requests and gathering category-level HTML pages using
+    either requests or Selenium when JavaScript rendering is required.
+
+    Attributes:
+        base_url (str): The root URL of the site to begin scraping from.
+    """
     def __init__(self, base_url):
         self.base_url = base_url
 
     def make_request(self, url, use_selenium=False):
-        # Setup Selenium driver only if needed
+        """
+        Make a request to the given URL using either requests or Selenium depending on JS requirements.
+
+        Args:
+            url (str): The URL to request.
+            use_selenium (bool): If True, use Selenium for dynamic page rendering.
+
+        Returns:
+            BeautifulSoup or None: Parsed HTML content or None if request fails.
+        """
+        time.sleep(1)
+
         if use_selenium:
+            # Setup Selenium driver only if needed
             options = Options()
             options.add_argument("--headless")  # run browser in headless mode
             options.add_argument("--disable-gpu")
@@ -29,6 +48,7 @@ class Collector:
             finally:
                 driver.quit()
         else:
+            # Static content request via requests
             headers = {
                 "User-Agent": (
                     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -62,6 +82,13 @@ class Collector:
             return None
 
     def get_categories(self):
+        """
+         Extracts all available category names and corresponding BeautifulSoup objects
+         for each category page that is not "Movie".
+
+         Returns:
+             dict: A dictionary with category names as keys and category BeautifulSoup objects as values.
+         """
         main_soup = self.make_request(self.base_url, False)
         category_soup_objs = {}
 
