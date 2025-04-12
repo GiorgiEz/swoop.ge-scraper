@@ -1,0 +1,75 @@
+Web Scraping Project Report: Swoop.ge
+1. Website Chosen
+The target website for this project is Swoop.ge, a popular Georgian e-commerce platform that offers local deals and
+discounts on travel, beauty, leisure, and various services. This website was chosen because of its structured layout,
+consistent use of HTML elements, and the wealth of diverse product data available across multiple categories.
+
+Swoop.ge presents a valuable opportunity to practice real-world web scraping skills, including multi-category
+traversal, handling both static and dynamic content, and data cleaning. Additionally, the insights gathered from the
+site can be used to analyze pricing strategies, seasonal discounts, and customer interest based on purchase metrics
+like "sold amount."
+
+2. Implementation Challenges and Solutions
+Several challenges arose during the scraping process:
+
+a. Dynamic Content
+Some pages on Swoop.ge load dynamically with JavaScript, and a few contained security measures such as captchas or
+rate limits. To overcome this, the project used Selenium WebDriver in headless mode to simulate a real browser when
+necessary. This was selectively applied to category pages while keeping most requests lightweight via the requests
+library and BeautifulSoup.
+
+b. Inconsistent HTML Structure
+Although the product layout was mostly consistent, there were edge cases where certain data fields were missing
+(e.g., no place name, no price shown). To ensure robustness, the scraper was designed to gracefully handle
+missing data using fallback checks and placeholder values like None.
+
+c. Performance and Request Timing
+Frequent requests could potentially trigger server-side protections. To mitigate this, a small delay (time.sleep(1))
+was added between requests to reduce the risk of being blocked and mimic human browsing behavior.
+
+3. Analysis of Collected Data
+The dataset includes product-related information across various categories such as travel deals, spa services,
+dining, and more. The key fields collected include:
+
+* Product name and category
+* Location (place name)
+* Prices (before and after sale)
+* Sale percentage
+* Sold amount (demand indicator)
+* Direct product URL and image
+
+From a preliminary analysis:
+* High discounts (25–50%) are common, especially in the travel category.
+* Some products are labeled as popular based on sold amount, while others, even with high discounts, show 0 purchases
+— indicating the importance of product appeal and timing over just pricing.
+* There’s a significant price range, from as low as 10₾ to over 500₾, suggesting a wide target demographic.
+
+This scraped data can be valuable for business intelligence, such as:
+* Understanding discount trends
+* Detecting which categories perform best
+* Identifying under performing products
+
+4. Potential Improvements or Extensions
+This project lays a solid foundation, but there are multiple directions it could evolve:
+
+a. Database Integration
+Instead of storing data only in CSV, integrating a SQLite or PostgreSQL database would allow better querying,
+version tracking, and historical comparisons.
+
+b. Scheduled Scraping
+To monitor changes in price, stock, and discounts over time, the scraper can be set up as a scheduled job
+(e.g., using cron or APScheduler) to collect periodic snapshots of the data.
+
+c. Data Visualization
+Building visual dashboards using libraries like matplotlib, seaborn, could help showcase insights such as:
+* Top discounted items
+* Purchase trends by category
+* Price distribution charts
+
+d. Deeper Product Page Scraping
+Currently, only listing-page data is captured. Extending the scraper to visit individual product pages could fetch
+more detailed information like user reviews, expiry dates, and provider details.
+
+e. Language Handling
+Swoop.ge offers content in Georgian and English. Additional work could be done to ensure multilingual scraping and
+translation support for non-English content.
