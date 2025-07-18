@@ -12,15 +12,15 @@ class DataCleaning:
 
     def get_info(self):
         """ Prints detailed information about the dataset. Helpful for understanding the dataset structure. """
-        print("THE GAMES DATASET INFORMATION: ", self.products_df.info(), '\n')
+        print("THE PRODUCTS DATASET INFORMATION: ", self.products_df.info(), '\n')
 
     def get_description(self):
         """ Prints a statistical summary of the dataset. Useful for a quick overview of data distribution. """
-        print("DESCRIPTION OF THE GAMES DATASET:\n", self.products_df.describe(), '\n')
+        print("DESCRIPTION OF THE PRODUCTS DATASET:\n", self.products_df.describe(), '\n')
 
     def get_null_columns(self):
         """ Prints the count of missing (null) values for each column in the dataset. """
-        print("AMOUNT OF NULL VALUES IN GAMES DATASET:", self.products_df.isnull().sum(), '\n')
+        print("AMOUNT OF NULL VALUES IN PRODUCTS DATASET:", self.products_df.isnull().sum(), '\n')
 
     def fill_nulls(self, column_name, fill_value_func):
         """
@@ -42,7 +42,7 @@ class DataCleaning:
             print(f"Error occurred while filling null values in '{column_name}': {e}")
 
     def fill_product_place_name_nulls(self):
-        """ Fills the missing values in the 'matchday' column with 'Unknown Matchday'. """
+        """ Fills the missing values in the 'product_name' and 'place_name' column with 'N/A'. """
         self.fill_nulls('product_name', lambda df: df['product_name'].fillna("N/A"))
         self.fill_nulls('place_name', lambda df: df['place_name'].fillna("N/A"))
 
